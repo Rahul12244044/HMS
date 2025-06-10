@@ -1,5 +1,5 @@
-import {userModel} from "../src/models/user.models.js";
-import {doctorModel} from "../src/models/doctor.schema.js";
+import {userModel} from "../models/user.models.js";
+import {doctorModel} from "../models/doctor.schema.js";
 export const addDoctors=async (req,res)=>{
     try{
         const doctors=req.body;
