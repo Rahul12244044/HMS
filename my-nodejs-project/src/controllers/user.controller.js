@@ -37,7 +37,7 @@ export const userSignIn = async (req, res) => {
         // Generate JWT token
         const token = jwt.sign(
             { userId: user._id, email: user.email, type: user.type },
-            'jsjfioewrnkldifiewrqnmsdrew', // Replace with your secret key in production
+            'jsjfioewrnkldifiewrqnmsdrew',
             { expiresIn: '1h' }
         );
         await sendMail(email);
@@ -149,13 +149,11 @@ export const addSlot=async (req,res)=>{
     console.log(req.body);
     const isFoundAnySlot=await slotModel.findOne({doctorId:new ObjectId(userId)});
     if(isFoundAnySlot){
-        // isFoundAnySlot.avialableSlots=avialableSlots;
         isFoundAnySlot.availableSlots=slots;
         await isFoundAnySlot.save();
         return res.status(201).json({message:"slots are updated successfully"});
     }else{
     console.log("isSlotFound");
-    // console.log(isSlotFound);
     await slotModel.create({doctorId:userId,availableSlots:slots});
     return res.status(201).json({message:"Slots are added successfully"});
     }
@@ -170,7 +168,6 @@ export const showAllSlots=async (req,res)=>{
     const doctorId=req.params.doctorId;
     console.log(doctorId);
     const doctorSlots=await slotModel.findOne({doctorId:new ObjectId(doctorId)});
-    // console.log(doctorSlots);
     const {availableSlots}=doctorSlots;
     console.log(availableSlots);
     if(!availableSlots){
@@ -245,7 +242,7 @@ export const cancelAppointment=async (req,res)=>{
        if (!currentSlots.includes(time)) {
           currentSlots.push(time);
         }
-        // Optional: Sort the times if needed
+        // Sort the times if needed
         currentSlots.sort(); 
 
        // Save the updated slots
@@ -361,20 +358,10 @@ export const searchDoctors=async (req,res)=>{
             }
         }
         arrTokens.push({doctorId:allTokens[r].doctorId,score});
-       
-        // console.log(arrTokens);
-        // for(let r=0;r<arrTokens.length;r++){
-        //     let oneItem=await userModel.findOne({_id:arrTokens[r].doctorId});
-        //     if(arrTokens[r].score>0){
-        //     allItems.push(oneItem);
-        //     }
-        // }
-        
     }
     arrTokens.sort((a, b) => b.score - a.score);
     // console.log(arrTokens);
     for(let r=0;r<arrTokens.length;r++){
-        // console.log("tokenScore: "+arrTokens[r].tokens);
         console.log(arrTokens[r].score);
         const oneItem=await userModel.findOne({_id:arrTokens[r].doctorId});
         if(arrTokens[r].score>0){
@@ -382,35 +369,6 @@ export const searchDoctors=async (req,res)=>{
         }
     }
     console.log(allItems);
-    // console.log(allItems);
-    // console.log(allItems);
-   
-    // console.log("allDoctorsTokens");
-    // console.log(allDoctorsTokens);
-    // let tokenScore=[];
-    // for(let r=0;r<allDoctorsTokens.length;r++){
-    //     let tokens=allDoctorsTokens[r].token;
-    //     let score=0;
-    //     for(let k=0;k<searchToken.length;k++){
-    //         if(tokens.includes(searchToken[k])){
-    //             score++;
-    //         }
-    //     }
-    //     tokenScore.push({doctorId:allDoctorsTokens[r]._id,score});
-    // }
-    // tokenScore.sort((a, b) => b.score - a.score);
-    // console.log(tokenScore);
-    // let doctors=[];
-    // for(let r=0;r<tokenScore.length;r++){
-    //     const doctorIds=tokenScore[r].doctorId;
-    //     const idString=doctorIds.toString();
-    //     console.log(idString);
-    //     const doctorFound=await userModel.findById(idString);
-    //     console.log(doctorFound);
-
-    // }
-    // console.log(doctors);
-    // console.log(doctors.length);
     return res.status(200).json({message:"look into the search query.",allItems});
 
     }catch(err){

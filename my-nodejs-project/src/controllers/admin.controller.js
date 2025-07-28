@@ -3,7 +3,6 @@ import {doctorModel} from "../models/doctor.schema.js";
 export const addDoctors=async (req,res)=>{
     try{
         const doctors=req.body;
-        // console.log("doctors: "+doctors);
         await userModel.insertMany(doctors);
         console.log(doctors);
 
@@ -22,7 +21,6 @@ export const createDoctorTokens=async (req,res)=>{
         console.log(oneDoctor);
         const cleanDoctor=oneDoctor.name.replace(/[^a-zA-Z0-9 ]/g, "");
         const doctorNameToken=cleanDoctor.split(" ");
-        // const doctorDescription=oneDoctor.description.replace(/[^a-zA-Z0-9 ]/g, "");
         const doctorDescriptionToken=oneDoctor.description.split(" ");
         const doctorToken=[...doctorNameToken,...doctorDescriptionToken];
         console.log(doctorToken);

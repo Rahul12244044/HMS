@@ -2,10 +2,10 @@ import nodemailer from 'nodemailer';
 
 // Configure the transporter
 const transporter = nodemailer.createTransport({
-    service: 'gmail', // e.g., 'gmail', 'yahoo', or use 'host', 'port', 'secure' for custom SMTP
+    service: 'gmail', 
     auth: {
-        user: 'rahuljajoria2412@gmail.com', // replace with your email
-        pass: 'sbkcbtfpenyitzku' // replace with your email password or app password
+        user: 'rahuljajoria2412@gmail.com', 
+        pass: 'sbkcbtfpenyitzku'
     }
 });
 

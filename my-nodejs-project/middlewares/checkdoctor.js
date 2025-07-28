@@ -3,9 +3,7 @@ export const checkIsItDoctorMiddleware=async (req,res,next)=>{
     try{
        const {userId}=req.user;
        console.log("checkIsItDoctor");
-    //    console.log(userId);
        const isDoctor=await userModel.findById(userId); 
-    //    console.log(isDoctor);
        if(isDoctor.type=="doctor"){
         next();
        }else{

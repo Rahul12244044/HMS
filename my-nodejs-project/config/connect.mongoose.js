@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-// Replace with your actual MongoDB connection string
+
 const MONGODB_URI = 'mongodb+srv://RahulCompany:Ok6x4vouhICgLqyP@cluster0.nxeid.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
 export const connectToMongoDB = async () => {
