@@ -375,6 +375,44 @@ export const searchDoctors=async (req,res)=>{
         console.log(err);
         return res.status(500).json({message:"Internal Server Error"});
     }
-    
-
 }
+export const uploadReport = (req, res) => {
+  try {
+    const user = req.user;
+
+    if (!req.files || !req.files.report) {
+      return res.status(400).json({ message: "No report file uploaded." });
+    }
+
+    const report = req.files.report;
+    console.log("report: ");
+    console.log(report);
+    const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png'];
+    const maxSize = 5 * 1024 * 1024; 
+    if (!allowedTypes.includes(report.mimetype)) {
+      return res.status(400).json({ message: "Invalid file type. Only PDF, JPEG, PNG allowed." });
+    }
+     if (report.size > maxSize) {
+      return res.status(400).json({ message: "File too large. Max size allowed is 5MB." });
+    }
+    const timestamp = Date.now();
+    const safeFilename = `${user.userId}_${timestamp}_${report.name}`;
+    const filePath = `files/${safeFilename}`;
+    report.mv(filePath, (err) => {
+      if (err) {
+        console.error("File move error:", err);
+        return res.status(500).json({ message: "Report update failed." });
+      }
+
+      return res.status(200).json({
+        message: "Report updated successfully.",
+        filename: safeFilename,
+        fileUrl: `/files/${safeFilename}`,
+      });
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal Server Error." });
+  }
+};

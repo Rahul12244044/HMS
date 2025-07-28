@@ -8,6 +8,7 @@ import adminRouter from "./src/routes/admin.routes.js";
 import { sendMail } from './config/nodemailer.js';
 import "./config/nodemailer.js";
 import cookieParser from "cookie-parser";
+import fileUpload from "express-fileupload";
 const app = express();
 const PORT = process.env.PORT || 3200;
 
@@ -17,9 +18,24 @@ connectToMongoDB();
 // Middleware to parse JSON bodies
 app.use(express.json());
 app.use(cookieParser());
+app.use("/files", express.static("files"));
+app.use(fileUpload({
+  limits: { fileSize: 50 * 1024 * 1024 },
+}));
+app.post('/upload', function(req, res) {
+    console.log("uploads: ");
+    console.log(req.files);
+    req.files.file.mv("./files/"+req.files.file.name,(err)=>{
+        if(err){
+        return res.status(500).json({ error: 'Upload failed' });
+        }
+        res.status(200).json({ message: 'Upload successful' });
+    })
+});
 // POST /api/signup endpoint
 app.use('/api/user', userRouter);
 app.use("/api/admin",adminRouter);
+
 // app.use("/api/feedback",feedbackRouter);
 // Error handling middleware
 app.use((err, req, res, next) => {

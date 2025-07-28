@@ -2,7 +2,7 @@ import express from "express";
 const userRouter=express.Router();
 import { userSignIn, userSignUp ,userMobileOtp,verifyMobileOtp,sendingMail,
     testController,searchDoctors,addPatientFeedback,addSlot,showAllSlots,
-    bookAppointment,cancelAppointment,getAllBookingsForDoctor,allPatientBookings,updateBooking} from "../controllers/user.controller.js";
+    bookAppointment,cancelAppointment,getAllBookingsForDoctor,allPatientBookings,updateBooking,uploadReport} from "../controllers/user.controller.js";
 import authMiddleware from "../../middlewares/auth.middleware.js";
 import {checkIsItDoctorMiddleware} from "../../middlewares/checkdoctor.js";
 
@@ -13,6 +13,7 @@ userRouter.get("/verify-mobile-otp",authMiddleware,verifyMobileOtp);
 userRouter.post("/sendMail",sendingMail);
 userRouter.get("/test",testController);
 userRouter.get("/searchDoctors",searchDoctors);
+userRouter.post('/report',authMiddleware,uploadReport);
 userRouter.post("/add-feedback",authMiddleware,addPatientFeedback);
 userRouter.post("/add-available-slot",authMiddleware,checkIsItDoctorMiddleware,addSlot);
 userRouter.get("/allSlots/:doctorId",showAllSlots);
